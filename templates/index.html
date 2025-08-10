@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HealthMate AI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <h1>💊 HealthMate AI</h1>
+  <p>Your friendly AI-powered symptom checker</p>
+</header>
+
+<!-- FORM SECTION -->
+<section id="diagnosis-form">
+  <form method="POST">
+    <input type="text" name="symptoms" placeholder="Enter your symptoms" value="{{ query }}" required>
+    <button type="submit">Diagnose Me 🚀</button>
+  </form>
+</section>
+
+<!-- RESULTS SECTION -->
+{% if result %}
+<section id="results">
+  <h2>Diagnosis</h2>
+  <p>{{ result.description | safe }}</p>
+
+  <h3>💊 Medicines</h3>
+  <ul>
+    {% for med in result.medicines %}
+      <li>
+        <strong>{{ med.name }}</strong>
+        {% if med.use %} - {{ med.use }}{% endif %}
+        {% if med.duration %} — <em>{{ med.duration }}</em>{% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+
+  {% if result.links %}
+  <h3>🛒 Buy Medicines</h3>
+  <ul>
+    {% for link in result.links %}
+      <li><a href="{{ link.url }}" target="_blank">{{ link.name }}</a></li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+  <h3>🏠 Home Remedy</h3>
+  <p>{{ result.home_remedy }}</p>
+
+  <h3>😂 Humor Boost</h3>
+  <p>{{ result.humor }}</p>
+
+  <h3>🌟 Positivity Boost</h3>
+  <p>{{ result.positivity }}</p>
+
+  <h3>⚠ Disclaimer</h3>
+  <p>{{ result.disclaimer }}</p>
+</section>
+{% endif %}
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 HealthMate AI | Hackathon Demo</p>
+</footer>
+
+</body>
+</html>
